@@ -1,0 +1,155 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-blood: var(--blood);
+  --color-ember: var(--ember);
+  --font-display: "Bebas Neue", "Anton", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+:root, .dark {
+  --radius: 0.75rem;
+  --background: oklch(0.12 0.02 25);
+  --foreground: oklch(0.98 0.01 20);
+  --card: oklch(0.16 0.03 25);
+  --card-foreground: oklch(0.98 0.01 20);
+  --popover: oklch(0.16 0.03 25);
+  --popover-foreground: oklch(0.98 0.01 20);
+  --primary: oklch(0.58 0.24 25);
+  --primary-foreground: oklch(0.98 0.01 20);
+  --secondary: oklch(0.22 0.04 25);
+  --secondary-foreground: oklch(0.98 0.01 20);
+  --muted: oklch(0.20 0.03 25);
+  --muted-foreground: oklch(0.72 0.04 25);
+  --accent: oklch(0.45 0.22 28);
+  --accent-foreground: oklch(0.98 0.01 20);
+  --destructive: oklch(0.65 0.27 25);
+  --destructive-foreground: oklch(0.98 0.01 20);
+  --border: oklch(0.28 0.06 25 / 0.6);
+  --input: oklch(0.22 0.04 25);
+  --ring: oklch(0.58 0.24 25);
+  --blood: oklch(0.50 0.27 26);
+  --ember: oklch(0.70 0.22 35);
+
+  --gradient-blood: linear-gradient(135deg, oklch(0.55 0.27 25), oklch(0.30 0.18 20));
+  --gradient-dark: linear-gradient(180deg, oklch(0.10 0.02 25), oklch(0.16 0.03 25));
+  --gradient-glow: radial-gradient(ellipse at top, oklch(0.45 0.22 25 / 0.4), transparent 60%);
+  --shadow-blood: 0 10px 40px -10px oklch(0.55 0.27 25 / 0.6);
+  --shadow-glow: 0 0 60px oklch(0.55 0.27 25 / 0.35);
+  --transition-smooth: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+  }
+  ::selection { background: var(--blood); color: white; }
+}
+
+@layer utilities {
+  .bg-gradient-blood { background-image: var(--gradient-blood); }
+  .bg-gradient-dark { background-image: var(--gradient-dark); }
+  .bg-glow { background-image: var(--gradient-glow); }
+  .shadow-blood { box-shadow: var(--shadow-blood); }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .text-blood { color: var(--blood); }
+  .transition-smooth { transition: var(--transition-smooth); }
+  .text-stroke {
+    -webkit-text-stroke: 2px var(--blood);
+    color: transparent;
+  }
+  .glass {
+    background: oklch(0.16 0.03 25 / 0.6);
+    backdrop-filter: blur(14px);
+    border: 1px solid oklch(0.55 0.27 25 / 0.25);
+  }
+  .hover-lift {
+    transition: var(--transition-smooth);
+  }
+  .hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-blood);
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .grain::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(oklch(0.55 0.27 25 / 0.06) 1px, transparent 1px);
+    background-size: 4px 4px;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+  @keyframes pulse-blood {
+    0%, 100% { box-shadow: 0 0 0 0 oklch(0.55 0.27 25 / 0.6); }
+    50% { box-shadow: 0 0 0 16px oklch(0.55 0.27 25 / 0); }
+  }
+  .pulse-blood { animation: pulse-blood 2.4s ease-out infinite; }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-marquee { animation: marquee 30s linear infinite; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+  }
+  .animate-shake { animation: shake 0.4s ease-in-out; }
+}
+
+/* Hide Lovable badge */
+#lovable-badge, .lovable-badge,
+a[href*="lovable.dev"][target="_blank"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
